@@ -18,7 +18,7 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         textViewToShowMessage = findViewById(R.id.second_activity_text_view);
 
-        if (getIntent() != null && getIntent().getStringExtra("EXTRA_TEXT") != null) {
+        if (getIntent().getStringExtra("EXTRA_TEXT") != null) {
             textViewToShowMessage.setText(getIntent().getStringExtra("EXTRA_TEXT"));
         }
         Log.i("Lifecycle Second", "onCreate()");
