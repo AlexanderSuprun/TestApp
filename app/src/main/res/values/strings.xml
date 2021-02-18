@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TestApp</string>
-    <string name="enter_some_text">Enter some text...</string>
-    <string name="send_to_another_activity">Send to another activity</string>
+    <string name="enter_some_text">Enter some text…</string>
+    <string name="first_fragment">First fragment</string>
+    <string name="second_fragment">Second fragment</string>
+    <string name="button_send">Send</string>
 </resources>

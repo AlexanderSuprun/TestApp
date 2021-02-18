@@ -2,4 +2,6 @@
 <resources>
     <dimen name="default_edit_text_width">280dp</dimen>
     <dimen name="default_edit_text_height">56dp</dimen>
+    <dimen name="default_middle_margin">8dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
 </resources>
