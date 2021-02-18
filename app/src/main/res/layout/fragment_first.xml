@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FirstFragment">
+    tools:context=".fragment.FirstFragment"
+    android:background="@android:color/holo_blue_dark">
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edit_text_fragment_second_title"
+        android:id="@+id/edit_text_fragment_first_message"
         android:layout_width="@dimen/default_edit_text_width"
         android:layout_height="@dimen/default_edit_text_height"
         android:hint="@string/enter_some_text"
-        app:layout_constraintBottom_toTopOf="@id/button_fragment_second_send"
+        app:layout_constraintBottom_toTopOf="@id/button_fragment_first_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_fragment_second_send"
+        android:id="@+id/button_fragment_first_send"
         style="@style/AppButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_fragment_second_title" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_fragment_first_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

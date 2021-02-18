@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SecondFragment">
+    tools:context=".fragment.SecondFragment"
+    android:background="@android:color/holo_green_light">
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edit_text_fragment_second_title"
+        android:id="@+id/edit_text_fragment_second_message"
         android:layout_width="@dimen/default_edit_text_width"
         android:layout_height="@dimen/default_edit_text_height"
         android:hint="@string/enter_some_text"
@@ -25,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_fragment_second_title" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_fragment_second_message" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

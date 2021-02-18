@@ -1,13 +1,19 @@
 package com.example.testapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 
 import com.example.testapp.R;
+import com.example.testapp.utils.OnMessageSendClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +25,8 @@ public class SecondFragment extends Fragment {
     private static final String ARG_TEXT = "com.example.testapp.TEXT";
 
     private String titleText;
+    private OnMessageSendClickListener listener;
+    private AppCompatEditText editTextMessage;
 
     public SecondFragment() {
         // Required empty public constructor
@@ -40,11 +48,20 @@ public class SecondFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (getParentFragment() instanceof OnMessageSendClickListener) {
+            this.listener = (OnMessageSendClickListener) getParentFragment();
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnMessageSendClickListener");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            titleText = getArguments().getString(ARG_TEXT);
-        }
     }
 
     @Override
@@ -52,5 +69,30 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        editTextMessage = view.findViewById(R.id.edit_text_fragment_second_message);
+
+        if (getArguments() != null) {
+            editTextMessage.setText(getArguments().getString(ARG_TEXT));
+        }
+
+        view.findViewById(R.id.button_fragment_second_send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
+    }
+
+    private void sendMessage() {
+        if (editTextMessage.getText() != null) {
+            listener.sendMessageToFirstFragment(editTextMessage.getText().toString());
+        } else {
+            Toast.makeText(getContext(), "Fill in all fields", Toast.LENGTH_SHORT).show();
+        }
     }
 }

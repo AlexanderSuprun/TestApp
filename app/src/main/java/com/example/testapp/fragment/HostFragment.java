@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.testapp.R;
+import com.example.testapp.utils.OnMessageSendClickListener;
 
 /**
  * HostFragment intended to contain other fragments.
  */
-public class HostFragment extends Fragment {
+public class HostFragment extends Fragment implements OnMessageSendClickListener {
 
     private static final String TAG_FIRST_FRAGMENT = "com.example.testapp.FirstFragment";
     private static final String TAG_SECOND_FRAGMENT = "com.example.testapp.SecondFragment";
@@ -43,39 +43,43 @@ public class HostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
-            firstFragment = new FirstFragment();
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_fragment_host_container, firstFragment, TAG_FIRST_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            firstFragment = (FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT);
-        }
+        replaceWithFirstFragment();
     }
 
     public void replaceWithFirstFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
             firstFragment = new FirstFragment();
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_fragment_host_container, firstFragment, TAG_FIRST_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
+            replaceFragment(firstFragment, TAG_FIRST_FRAGMENT);
         } else {
-            firstFragment = (FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT);
+            replaceFragment((FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT),
+                    TAG_FIRST_FRAGMENT);
         }
     }
 
     public void replaceWithSecondFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT) == null) {
             secondFragment = new SecondFragment();
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_fragment_host_container, secondFragment, TAG_SECOND_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
+            replaceFragment(secondFragment, TAG_SECOND_FRAGMENT);
         } else {
-            secondFragment = (SecondFragment) getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT);
+            replaceFragment((SecondFragment) getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT),
+                    TAG_SECOND_FRAGMENT);
         }
+    }
+
+    @Override
+    public void sendMessageToFirstFragment(String message) {
+        replaceFragment(FirstFragment.newInstance(message), TAG_FIRST_FRAGMENT);
+    }
+
+    @Override
+    public void sendMessageToSecondFragment(String message) {
+        replaceFragment(SecondFragment.newInstance(message), TAG_SECOND_FRAGMENT);
+    }
+
+    private void replaceFragment(Fragment fragment, String fragmentTag) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_fragment_host_container, fragment, fragmentTag)
+                .addToBackStack(null)
+                .commit();
     }
 }
