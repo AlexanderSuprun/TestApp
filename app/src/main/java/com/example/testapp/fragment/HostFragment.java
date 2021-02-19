@@ -1,6 +1,7 @@
 package com.example.testapp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,21 +9,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.testapp.R;
-import com.example.testapp.utils.OnMessageSendClickListener;
+import com.example.testapp.utils.OnFragmentMessageSendListener;
+
 
 /**
  * HostFragment intended to contain other fragments.
  */
-public class HostFragment extends Fragment implements OnMessageSendClickListener {
+public class HostFragment extends Fragment implements OnFragmentMessageSendListener {
 
-    private static final String TAG_FIRST_FRAGMENT = "com.example.testapp.FirstFragment";
-    private static final String TAG_SECOND_FRAGMENT = "com.example.testapp.SecondFragment";
-
-    private FirstFragment firstFragment;
-    private SecondFragment secondFragment;
+    private static final String TAG_FIRST_FRAGMENT = "com.example.testapp.FIRST_FRAGMENT";
+    private static final String TAG_SECOND_FRAGMENT = "com.example.testapp.SECOND_FRAGMENT";
 
     public HostFragment() {
         // Required empty public constructor
@@ -48,7 +47,7 @@ public class HostFragment extends Fragment implements OnMessageSendClickListener
 
     public void replaceWithFirstFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
-            firstFragment = new FirstFragment();
+            FirstFragment firstFragment = new FirstFragment();
             replaceFragment(firstFragment, TAG_FIRST_FRAGMENT);
         } else {
             replaceFragment((FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT),
@@ -58,13 +57,14 @@ public class HostFragment extends Fragment implements OnMessageSendClickListener
 
     public void replaceWithSecondFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT) == null) {
-            secondFragment = new SecondFragment();
+            SecondFragment secondFragment = new SecondFragment();
             replaceFragment(secondFragment, TAG_SECOND_FRAGMENT);
         } else {
             replaceFragment((SecondFragment) getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT),
                     TAG_SECOND_FRAGMENT);
         }
     }
+
 
     @Override
     public void sendMessageToFirstFragment(String message) {
@@ -77,8 +77,10 @@ public class HostFragment extends Fragment implements OnMessageSendClickListener
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTag) {
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_fragment_host_container, fragment, fragmentTag)
+        FragmentManager manager = getChildFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.fl_fragment_host_container, fragment, fragmentTag)
+                .setReorderingAllowed(true)
                 .addToBackStack(null)
                 .commit();
     }

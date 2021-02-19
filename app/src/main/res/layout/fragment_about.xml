@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_fragment_about_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_fragment_about_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_middle_margin"
+        android:text="@string/created_by_alexander_suprun"
+        android:textSize="@dimen/default_text_size" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_fragment_about_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_some_text"
+        android:padding="@dimen/default_middle_padding"
+        android:layout_margin="@dimen/default_middle_margin"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_fragment_about_send"
+        style="@style/AppButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/button_send" />
+</LinearLayout>
+

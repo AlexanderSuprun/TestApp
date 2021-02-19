@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_options">
+        <item>English</item>
+        <item>Russian</item>
+        <item>Ukrainian</item>
+    </string-array>
+
+    <string-array name="list_values">
+        <item>English Language</item>
+        <item>Russian Language</item>
+        <item>Ukrainian Language</item>
+    </string-array>
+</resources>

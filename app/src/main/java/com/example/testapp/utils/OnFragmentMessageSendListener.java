@@ -1,6 +1,6 @@
 package com.example.testapp.utils;
 
-public interface OnMessageSendClickListener {
+public interface OnFragmentMessageSendListener {
 
     void sendMessageToFirstFragment(String message);
 

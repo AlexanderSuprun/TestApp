@@ -2,6 +2,7 @@ package com.example.testapp.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,10 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 
 import com.example.testapp.R;
-import com.example.testapp.utils.OnMessageSendClickListener;
+import com.example.testapp.utils.OnFragmentMessageSendListener;
+
+import java.util.Objects;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +28,7 @@ public class SecondFragment extends Fragment {
 
     private static final String ARG_TEXT = "com.example.testapp.TEXT";
 
-    private String titleText;
-    private OnMessageSendClickListener listener;
+    private OnFragmentMessageSendListener listener;
     private AppCompatEditText editTextMessage;
 
     public SecondFragment() {
@@ -50,12 +53,11 @@ public class SecondFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        if (getParentFragment() instanceof OnMessageSendClickListener) {
-            this.listener = (OnMessageSendClickListener) getParentFragment();
+        if (getParentFragment() instanceof OnFragmentMessageSendListener) {
+            this.listener = (OnFragmentMessageSendListener) getParentFragment();
         } else {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnMessageSendClickListener");
+            throw new ClassCastException(Objects.requireNonNull(getParentFragment()).toString()
+                    + " must implement OnFragmentMessageSendListener");
         }
     }
 
@@ -89,7 +91,7 @@ public class SecondFragment extends Fragment {
     }
 
     private void sendMessage() {
-        if (editTextMessage.getText() != null) {
+        if (editTextMessage.getText() != null && !TextUtils.isEmpty(editTextMessage.getText())) {
             listener.sendMessageToFirstFragment(editTextMessage.getText().toString());
         } else {
             Toast.makeText(getContext(), "Fill in all fields", Toast.LENGTH_SHORT).show();

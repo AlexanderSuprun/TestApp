@@ -4,4 +4,12 @@
     <string name="first_fragment">First fragment</string>
     <string name="second_fragment">Second fragment</string>
     <string name="button_send">Send</string>
+    <string name="toolbar_about_option">About</string>
+    <string name="toolbar_settings_option">Settings</string>
+    <string name="created_by_alexander_suprun">Created by Alexander Suprun</string>
+    <string name="title_about">About</string>
+    <string name="settings_title">Settings</string>
+    <string name="title_push_notifications_preference">Enable push notifications</string>
+    <string name="title_updates_preference">Allow auto update</string>
+    <string name="title_language_preference">Language</string>
 </resources>
