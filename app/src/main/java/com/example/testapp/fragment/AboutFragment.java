@@ -1,11 +1,14 @@
 package com.example.testapp.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +25,6 @@ public class AboutFragment extends DialogFragment {
     public static final String TAG_TITLE = "com.example.testapp.TITLE";
 
     private AppCompatEditText editTextFeedback;
-    private AppCompatButton buttonSend;
 
     public AboutFragment() {
         //Required empty public constructor
@@ -36,40 +38,35 @@ public class AboutFragment extends DialogFragment {
         return fragment;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_about, container, false);
-    }
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        String title = getString(R.string.title_about);
+        View dialogView = getLayoutInflater().inflate(R.layout.fragment_about, null);
+        editTextFeedback = dialogView.getRootView().findViewById(R.id.edit_text_fragment_about_feedback);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        editTextFeedback = view.findViewById(R.id.edit_text_fragment_about_feedback);
-        buttonSend = view.findViewById(R.id.button_fragment_about_send);
-
-        if (getArguments() != null && getDialog() != null) {
-            getDialog().setTitle(getArguments().getString(TAG_TITLE,
-                    getString(R.string.title_about)));
-        } else if (getDialog() != null) {
-            getDialog().setTitle(getString(R.string.title_about));
-            editTextFeedback.requestFocus();
-            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        if (getArguments() != null) {
+            title = getArguments().getString(TAG_TITLE);
         }
 
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendFeedback();
-            }
-        });
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(dialogView)
+                .setTitle(title)
+                .setMessage(getString(R.string.created_by_alexander_suprun))
+                .setPositiveButton(getString(R.string.button_send), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendFeedback();
+                    }
+                });
+        return alertDialogBuilder.create();
     }
 
     private void sendFeedback() {
         if (editTextFeedback.getText() != null && !TextUtils.isEmpty(editTextFeedback.getText())) {
 
-            if (getActivity() instanceof OnFeedbackSendListener) {
-                OnFeedbackSendListener listener = (OnFeedbackSendListener) getActivity();
+            if (getActivity() instanceof OnSendFeedbackListener) {
+                OnSendFeedbackListener listener = (OnSendFeedbackListener) getActivity();
                 listener.onFeedbackSend(editTextFeedback.getText().toString());
                 dismiss();
             }
@@ -81,7 +78,7 @@ public class AboutFragment extends DialogFragment {
     }
 
 
-    public interface OnFeedbackSendListener {
+    public interface OnSendFeedbackListener {
         void onFeedbackSend(String message);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.testapp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +46,7 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
 
     public void replaceWithFirstFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
-            FirstFragment firstFragment = new FirstFragment();
-            replaceFragment(firstFragment, TAG_FIRST_FRAGMENT);
+            replaceFragment(new FirstFragment(), TAG_FIRST_FRAGMENT);
         } else {
             replaceFragment((FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT),
                     TAG_FIRST_FRAGMENT);
@@ -57,8 +55,7 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
 
     public void replaceWithSecondFragment() {
         if (getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT) == null) {
-            SecondFragment secondFragment = new SecondFragment();
-            replaceFragment(secondFragment, TAG_SECOND_FRAGMENT);
+            replaceFragment(new SecondFragment(), TAG_SECOND_FRAGMENT);
         } else {
             replaceFragment((SecondFragment) getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT),
                     TAG_SECOND_FRAGMENT);
