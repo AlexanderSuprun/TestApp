@@ -12,4 +12,11 @@
     <string name="title_push_notifications_preference">Enable push notifications</string>
     <string name="title_updates_preference">Allow auto update</string>
     <string name="title_language_preference">Language</string>
+    <string name="snackbar_settings_changed">Settings have been changed</string>
+    <string name="snackbar_action_undo">Undo</string>
+    <string name="changes_in_settings">Changes in settings</string>
+    <string name="dialog_button_close">Close</string>
+    <string name="dialog_push_notification">Push notification: </string>
+    <string name="dialog_auto_update">Auto updates: </string>
+    <string name="dialog_language">Language: </string>
 </resources>

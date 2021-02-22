@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.testapp.R;
 import com.example.testapp.utils.OnFragmentMessageSendListener;
@@ -41,7 +40,16 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        replaceWithFirstFragment();
+        if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fl_fragment_host_container, new FirstFragment(), TAG_FIRST_FRAGMENT)
+                    .commit();
+        } else {
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fl_fragment_host_container,
+                            (FirstFragment) getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT))
+                    .commit();
+        }
     }
 
     public void replaceWithFirstFragment() {
@@ -74,8 +82,8 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTag) {
-        FragmentManager manager = getChildFragmentManager();
-        manager.beginTransaction()
+        getChildFragmentManager()
+                .beginTransaction()
                 .replace(R.id.fl_fragment_host_container, fragment, fragmentTag)
                 .setReorderingAllowed(true)
                 .addToBackStack(null)

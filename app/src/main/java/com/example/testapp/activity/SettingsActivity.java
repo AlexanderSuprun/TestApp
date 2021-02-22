@@ -13,16 +13,25 @@ import com.example.testapp.fragment.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private SettingsFragment settingsFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         initToolbarWithNavigation(getString(R.string.settings_title));
 
+        settingsFragment = new SettingsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fl_activity_settings_container, new SettingsFragment())
+                .replace(R.id.fl_activity_settings_container, settingsFragment)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK, settingsFragment.getResultIntent());
+        super.onBackPressed();
     }
 
     public void initToolbarWithNavigation(String title) {

@@ -1,5 +1,6 @@
 package com.example.testapp.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+
                 if (item.getItemId() == R.id.item_toolbar_about_option) {
                     showAboutDialog();
                     return true;
@@ -96,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivityForResult(intent, Consts.REQUEST_CODE);
                     return true;
-                }
 
+                }
                 return false;
             }
         });
@@ -106,7 +109,17 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (resultCode == RESULT_OK && requestCode == Consts.REQUEST_CODE && data != null) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+            alertDialog.setTitle(getString(R.string.changes_in_settings))
+                    .setMessage(getString(R.string.dialog_push_notification) +
+                            data.getBooleanExtra(Consts.EXTRA_PUSH_SETTING, false) +
+                            "\n" + getString(R.string.dialog_auto_update) +
+                            data.getBooleanExtra(Consts.EXTRA_UPDATE_SETTING, false) +
+                            "\n" + getString(R.string.dialog_language) +
+                            data.getStringExtra(Consts.EXTRA_LANGUAGE_SETTING))
+                    .show();
+        }
     }
 
     protected void showAboutDialog() {
