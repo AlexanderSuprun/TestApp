@@ -1,6 +1,5 @@
 package com.example.testapp.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,83 +9,29 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.testapp.R;
 import com.example.testapp.fragment.AboutFragment;
 import com.example.testapp.fragment.HostFragment;
 import com.example.testapp.utils.Consts;
 
+import static com.example.testapp.fragment.FirstFragment.TAG_FIRST_FRAGMENT;
+import static com.example.testapp.fragment.HostFragment.TAG_HOST_FRAGMENT;
+import static com.example.testapp.fragment.SecondFragment.TAG_SECOND_FRAGMENT;
+
 
 public class MainActivity extends AppCompatActivity implements AboutFragment.OnSendFeedbackListener {
-
-    private static final String TAG_HOST_FRAGMENT = "com.example.testapp.HOST_FRAGMENT";
-
-    private AppCompatButton buttonFirstFragment;
-    private AppCompatButton buttonSecondFragment;
-    private HostFragment hostFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initToolbarWithMenu(getString(R.string.app_name));
-
-        if (getSupportFragmentManager().findFragmentByTag(TAG_HOST_FRAGMENT) == null) {
-            hostFragment = new HostFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_activity_main_container, hostFragment, TAG_HOST_FRAGMENT)
-                    .commit();
-        } else {
-            hostFragment = (HostFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOST_FRAGMENT);
-        }
-
-        buttonFirstFragment = findViewById(R.id.button_activity_main_first_fragment);
-        buttonSecondFragment = findViewById(R.id.button_activity_main_second_fragment);
-        setListeners();
-    }
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager manager = getSupportFragmentManager();
-
-        for (Fragment fragment : manager.getFragments()) {
-            if (fragment.isVisible()) {
-                FragmentManager childManager = fragment.getChildFragmentManager();
-                if (childManager.getBackStackEntryCount() > 0) {
-                    childManager.popBackStack();
-                    return;
-                }
-            }
-        }
-
-        super.onBackPressed();
-    }
-
-    private void setListeners() {
-        buttonFirstFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hostFragment.replaceWithFirstFragment();
-            }
-        });
-
-        buttonSecondFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hostFragment.replaceWithSecondFragment();
-            }
-        });
-    }
-
-    public void initToolbarWithMenu(String title) {
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
+        toolbar.setTitle(getString(R.string.app_name));
         toolbar.inflateMenu(R.menu.toolbar_overflow_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -104,14 +49,35 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
                 return false;
             }
         });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_activity_main_container, new HostFragment(), TAG_HOST_FRAGMENT)
+                    .commit();
+        }
+        setListeners();
+    }
+
+    @Override
+    public void onBackPressed() {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment.isVisible()) {
+                FragmentManager childManager = fragment.getChildFragmentManager();
+                if (childManager.getBackStackEntryCount() > 0) {
+                    childManager.popBackStack();
+                    return;
+                }
+            }
+        }
+        super.onBackPressed();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == Consts.REQUEST_CODE && data != null) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-            alertDialog.setTitle(getString(R.string.changes_in_settings))
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(getString(R.string.changes_in_settings))
                     .setMessage(getString(R.string.dialog_push_notification) +
                             data.getBooleanExtra(Consts.EXTRA_PUSH_SETTING, false) +
                             "\n" + getString(R.string.dialog_auto_update) +
@@ -123,13 +89,31 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
     }
 
     protected void showAboutDialog() {
-        FragmentManager manager = getSupportFragmentManager();
-        AboutFragment aboutFragment = new AboutFragment();
-        aboutFragment.show(manager, Consts.TAG_DIALOG_ABOUT);
+        new AboutFragment().show(getSupportFragmentManager(), Consts.TAG_DIALOG_ABOUT);
     }
 
     @Override
     public void onFeedbackSend(String message) {
-        Toast.makeText(getApplicationContext(), "Feedback message: " + message, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, getString(R.string.toast_feedback_message) +
+                message, Toast.LENGTH_LONG).show();
+    }
+
+
+    private void setListeners() {
+        findViewById(R.id.button_activity_main_first_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HostFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOST_FRAGMENT))
+                        .replaceWithFragment(TAG_FIRST_FRAGMENT);
+            }
+        });
+
+        findViewById(R.id.button_activity_main_second_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HostFragment) getSupportFragmentManager().findFragmentByTag(TAG_HOST_FRAGMENT))
+                        .replaceWithFragment(TAG_SECOND_FRAGMENT);
+            }
+        });
     }
 }

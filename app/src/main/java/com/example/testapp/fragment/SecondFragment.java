@@ -3,6 +3,7 @@ package com.example.testapp.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.testapp.R;
 import com.example.testapp.utils.OnFragmentMessageSendListener;
 
-import java.util.Objects;
+import static com.example.testapp.fragment.FirstFragment.TAG_FIRST_FRAGMENT;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Contains simple form. Sends message to {@link FirstFragment}.
  * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class SecondFragment extends Fragment {
 
+    public static final String TAG_SECOND_FRAGMENT = "com.example.testapp.SECOND_FRAGMENT";
     private static final String ARG_TEXT = "com.example.testapp.TEXT";
 
     private OnFragmentMessageSendListener listener;
@@ -33,6 +36,7 @@ public class SecondFragment extends Fragment {
 
     public SecondFragment() {
         // Required empty public constructor
+        Log.d("FRAGMENT_TAG", "Second fragment created");
     }
 
     /**
@@ -56,7 +60,7 @@ public class SecondFragment extends Fragment {
         if (getParentFragment() instanceof OnFragmentMessageSendListener) {
             this.listener = (OnFragmentMessageSendListener) getParentFragment();
         } else {
-            throw new ClassCastException(Objects.requireNonNull(getParentFragment()).toString()
+            throw new ClassCastException(requireParentFragment().toString()
                     + " must implement OnFragmentMessageSendListener");
         }
     }
@@ -79,7 +83,8 @@ public class SecondFragment extends Fragment {
         editTextMessage = view.findViewById(R.id.edit_text_fragment_second_message);
 
         if (getArguments() != null) {
-            editTextMessage.setText(getArguments().getString(ARG_TEXT));
+            ((AppCompatTextView) view.findViewById(R.id.text_view_fragment_second_show_message))
+                    .setText(getArguments().getString(ARG_TEXT));
         }
 
         view.findViewById(R.id.button_fragment_second_send).setOnClickListener(new View.OnClickListener() {
@@ -92,9 +97,15 @@ public class SecondFragment extends Fragment {
 
     private void sendMessage() {
         if (editTextMessage.getText() != null && !TextUtils.isEmpty(editTextMessage.getText())) {
-            listener.sendMessageToFirstFragment(editTextMessage.getText().toString());
+            listener.sendMessageToFragment(TAG_FIRST_FRAGMENT, editTextMessage.getText().toString());
         } else {
-            Toast.makeText(getContext(), "Fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.toast_fill_in_all_fields), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDetach() {
+        listener = null;
+        super.onDetach();
     }
 }

@@ -3,6 +3,7 @@ package com.example.testapp.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.testapp.R;
 import com.example.testapp.utils.OnFragmentMessageSendListener;
 
+import static com.example.testapp.fragment.SecondFragment.TAG_SECOND_FRAGMENT;
+
+
 /**
- * A simple {@link Fragment} subclass.
+ * Contains simple form. Sends message to {@link SecondFragment}.
  * Use the {@link FirstFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class FirstFragment extends Fragment {
 
+    public static final String TAG_FIRST_FRAGMENT = "com.example.testapp.FIRST_FRAGMENT";
     private static final String ARG_TEXT = "com.example.testapp.TEXT";
 
     private OnFragmentMessageSendListener listener;
@@ -30,6 +36,7 @@ public class FirstFragment extends Fragment {
 
     public FirstFragment() {
         // Required empty public constructor
+        Log.d("FRAGMENT_TAG", "First fragment created");
     }
 
     /**
@@ -78,7 +85,8 @@ public class FirstFragment extends Fragment {
         editTextMessage = view.findViewById(R.id.edit_text_fragment_first_message);
 
         if (getArguments() != null) {
-            editTextMessage.setText(getArguments().getString(ARG_TEXT));
+            ((AppCompatTextView) view.findViewById(R.id.text_view_fragment_first_show_message))
+                    .setText(getArguments().getString(ARG_TEXT));
         }
 
         view.findViewById(R.id.button_fragment_first_send).setOnClickListener(new View.OnClickListener() {
@@ -91,10 +99,15 @@ public class FirstFragment extends Fragment {
 
     private void sendMessage() {
         if (editTextMessage.getText() != null && !TextUtils.isEmpty(editTextMessage.getText())) {
-            listener.sendMessageToSecondFragment(editTextMessage.getText().toString());
+            listener.sendMessageToFragment(TAG_SECOND_FRAGMENT, editTextMessage.getText().toString());
         } else {
-            Toast.makeText(getContext(), "Fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.toast_fill_in_all_fields), Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onDetach() {
+        listener = null;
+        super.onDetach();
+    }
 }

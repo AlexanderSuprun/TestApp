@@ -19,4 +19,6 @@
     <string name="dialog_push_notification">Push notification: </string>
     <string name="dialog_auto_update">Auto updates: </string>
     <string name="dialog_language">Language: </string>
+    <string name="toast_feedback_message">"Feedback message: "</string>
+    <string name="toast_fill_in_all_fields">Fill in all fields</string>
 </resources>

@@ -18,7 +18,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private final Intent resultIntent = new Intent();
+
+    public static final String TAG_SETTINGS_FRAGMENT = "com.example.testapp.TAG_SETTINGS_FRAGMENT";
+
     private SwitchPreference switchPushPreference;
     private CheckBoxPreference checkBoxUpdatePreference;
     private ListPreference listLanguagePreference;
@@ -70,28 +72,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
         return false;
     }
-//        switch (preference.getKey()) {
-//            case "push_notification_switch":
-//                resultIntent.putExtra(Consts.EXTRA_PUSH_SETTING, switchPushPreference.isChecked());
-//                createSnackbar();
-//                return true;
-//            case "updates_checkbox":
-//                resultIntent.putExtra(Consts.EXTRA_UPDATE_SETTING, checkBoxUpdatePreference.isChecked());
-//                createSnackbar();
-//                return true;
-//            case "language_list":
-//                resultIntent.putExtra(Consts.EXTRA_LANGUAGE_SETTING, listLanguagePreference.getValue());
-//                createSnackbar();
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
 
     public Intent getResultIntent() {
-        resultIntent.putExtra(Consts.EXTRA_PUSH_SETTING, switchPushPreference.isChecked());
-        resultIntent.putExtra(Consts.EXTRA_UPDATE_SETTING, checkBoxUpdatePreference.isChecked());
-        resultIntent.putExtra(Consts.EXTRA_LANGUAGE_SETTING, listLanguagePreference.getValue());
-        return resultIntent;
+        return new Intent()
+                .putExtra(Consts.EXTRA_PUSH_SETTING, switchPushPreference.isChecked())
+                .putExtra(Consts.EXTRA_UPDATE_SETTING, checkBoxUpdatePreference.isChecked())
+                .putExtra(Consts.EXTRA_LANGUAGE_SETTING, listLanguagePreference.getValue());
     }
 }
