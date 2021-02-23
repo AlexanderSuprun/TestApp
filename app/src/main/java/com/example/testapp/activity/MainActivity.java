@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
             public boolean onMenuItemClick(MenuItem item) {
 
                 if (item.getItemId() == R.id.item_toolbar_about_option) {
-                    showAboutDialog();
+                    new AboutFragment().show(getSupportFragmentManager(), Consts.TAG_DIALOG_ABOUT);
                     return true;
                 } else if (item.getItemId() == R.id.item_toolbar_settings_option) {
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivityForResult(intent, Consts.REQUEST_CODE);
                     return true;
-
                 }
+
                 return false;
             }
         });
@@ -88,16 +88,11 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnS
         }
     }
 
-    protected void showAboutDialog() {
-        new AboutFragment().show(getSupportFragmentManager(), Consts.TAG_DIALOG_ABOUT);
-    }
-
     @Override
     public void onFeedbackSend(String message) {
         Toast.makeText(MainActivity.this, getString(R.string.toast_feedback_message) +
                 message, Toast.LENGTH_LONG).show();
     }
-
 
     private void setListeners() {
         findViewById(R.id.button_activity_main_first_fragment).setOnClickListener(new View.OnClickListener() {

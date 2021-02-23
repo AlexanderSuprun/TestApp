@@ -1,7 +1,6 @@
 package com.example.testapp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
         }
     }
 
-    //  TODO Fix this method
 //  Each fragment is added to backstack which causes
 //  long exit from application through back button
     public void replaceWithFragment(String tag) {
@@ -59,18 +57,15 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
             if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
                 replaceFragment(new FirstFragment(), TAG_FIRST_FRAGMENT, true);
             } else if (!getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT).isVisible()) {
-                Log.d("FRAGMENT_TAG", "Replaced with FirstFragment");
                 replaceFragment(getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT),
-                        TAG_FIRST_FRAGMENT, true);
+                        TAG_FIRST_FRAGMENT, false);
             }
         } else if (tag.equals(TAG_SECOND_FRAGMENT)) {
             if (getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT) == null) {
                 replaceFragment(new SecondFragment(), TAG_SECOND_FRAGMENT, true);
             } else if (!getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT).isVisible()) {
-                Log.d("FRAGMENT_TAG", "Replaced with SecondFragment" +
-                        getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT).isVisible());
                 replaceFragment(getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT),
-                        TAG_SECOND_FRAGMENT, true);
+                        TAG_SECOND_FRAGMENT, false);
             }
         }
     }
