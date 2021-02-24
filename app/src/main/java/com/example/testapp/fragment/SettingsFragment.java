@@ -39,24 +39,24 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         pushPreferenceSavedState = getPreferenceManager()
                 .getSharedPreferences()
-                .getBoolean("push_notification_switch", false);
+                .getBoolean(getString(R.string.preference_key_push_notifications), false);
         updatePreferenceSavedState = getPreferenceManager()
                 .getSharedPreferences()
-                .getBoolean("updates_checkbox", false);
+                .getBoolean(getString(R.string.preference_key_auto_updates), false);
         languagePreferenceSavedState = getPreferenceManager()
                 .getSharedPreferences()
-                .getString("language_list", "Not set");
+                .getString(getString(R.string.preference_key_language), getString(R.string.language_not_set));
 
-        switchPushPreference = getPreferenceScreen().findPreference("push_notification_switch");
-        checkBoxUpdatePreference = getPreferenceScreen().findPreference("updates_checkbox");
-        listLanguagePreference = getPreferenceScreen().findPreference("language_list");
+        switchPushPreference = getPreferenceScreen().findPreference(getString(R.string.preference_key_push_notifications));
+        checkBoxUpdatePreference = getPreferenceScreen().findPreference(getString(R.string.preference_key_auto_updates));
+        listLanguagePreference = getPreferenceScreen().findPreference(getString(R.string.preference_key_language));
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey().equals("push_notification_switch") ||
-                preference.getKey().equals("updates_checkbox") ||
-                preference.getKey().equals("language_list")) {
+        if (preference.getKey().equals(getString(R.string.preference_key_push_notifications)) ||
+                preference.getKey().equals(getString(R.string.preference_key_auto_updates)) ||
+                preference.getKey().equals(getString(R.string.preference_key_language))) {
             if (getView() != null) {
                 Snackbar.make(getView(), R.string.snackbar_settings_changed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.snackbar_action_undo, new View.OnClickListener() {

@@ -19,7 +19,12 @@
     <string name="dialog_push_notification">Push notification:</string>
     <string name="dialog_auto_update">Allow auto-updates:</string>
     <string name="dialog_language">Language:</string>
-    <string name="toast_feedback_message">"Feedback message: "</string>
+    <string name="toast_feedback_message">Feedback message: </string>
     <string name="toast_fill_in_all_fields">Fill in all fields</string>
     <string name="toast_enter_something_to_send">Enter something to send</string>
+    <string name="language_not_set">Not set</string>
+    <string name="preference_key_push_notifications" translatable="false">push_notification_switch</string>
+    <string name="preference_key_auto_updates" translatable="false">updates_checkbox</string>
+    <string name="preference_key_language" translatable="false">language_list</string>
+
 </resources>

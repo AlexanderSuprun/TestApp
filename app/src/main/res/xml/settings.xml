@@ -2,16 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:key="push_notification_switch"
+        android:key="@string/preference_key_push_notifications"
         android:title="@string/title_push_notifications_preference" />
     <CheckBoxPreference
-        android:key="updates_checkbox"
+        android:key="@string/preference_key_auto_updates"
         android:title="@string/title_updates_preference" />
 
     <ListPreference
         android:entries="@array/list_options"
         android:entryValues="@array/list_values"
-        android:key="language_list"
+        android:key="@string/preference_key_language"
         android:title="@string/title_language_preference"
         app:useSimpleSummaryProvider="true"/>
 

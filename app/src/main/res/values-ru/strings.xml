@@ -20,7 +20,8 @@
     <string name="dialog_push_notification">Push уведомления:</string>
     <string name="dialog_auto_update">Разрешить автообновление:</string>
     <string name="dialog_language">Язык:</string>
-    <string name="toast_feedback_message">"Сообщение обратной связи:"</string>
+    <string name="toast_feedback_message">Сообщение обратной связи:</string>
     <string name="toast_fill_in_all_fields">Заполните все поля</string>
     <string name="toast_enter_something_to_send">Введите что-то для отправки</string>
+    <string name="language_not_set">Не установлено</string>
 </resources>
