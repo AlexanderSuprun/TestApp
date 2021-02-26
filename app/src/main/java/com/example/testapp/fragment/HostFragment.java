@@ -50,19 +50,17 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
         }
     }
 
-//  Each fragment is added to backstack which causes
-//  long exit from application through back button
     public void replaceWithFragment(String tag) {
         if (tag.equals(TAG_FIRST_FRAGMENT)) {
             if (getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT) == null) {
-                replaceFragment(new FirstFragment(), TAG_FIRST_FRAGMENT, true);
+                replaceFragment(new FirstFragment(), TAG_FIRST_FRAGMENT, false);
             } else if (!getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT).isVisible()) {
                 replaceFragment(getChildFragmentManager().findFragmentByTag(TAG_FIRST_FRAGMENT),
                         TAG_FIRST_FRAGMENT, false);
             }
         } else if (tag.equals(TAG_SECOND_FRAGMENT)) {
             if (getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT) == null) {
-                replaceFragment(new SecondFragment(), TAG_SECOND_FRAGMENT, true);
+                replaceFragment(new SecondFragment(), TAG_SECOND_FRAGMENT, false);
             } else if (!getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT).isVisible()) {
                 replaceFragment(getChildFragmentManager().findFragmentByTag(TAG_SECOND_FRAGMENT),
                         TAG_SECOND_FRAGMENT, false);
