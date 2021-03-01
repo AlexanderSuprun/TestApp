@@ -1,5 +1,7 @@
 package com.example.testapp.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.testapp.R;
+import com.example.testapp.utils.Consts;
 import com.example.testapp.utils.OnFragmentMessageSendListener;
+
+import java.util.Objects;
 
 import static com.example.testapp.fragment.FirstFragment.TAG_FIRST_FRAGMENT;
 import static com.example.testapp.fragment.SecondFragment.TAG_SECOND_FRAGMENT;
@@ -43,11 +48,39 @@ public class HostFragment extends Fragment implements OnFragmentMessageSendListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (savedInstanceState == null) {
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.fl_fragment_host_container, new FirstFragment(), TAG_FIRST_FRAGMENT)
+            if (requireActivity().getPreferences(Context.MODE_PRIVATE)
+                    .getString(Consts.TAG_SAVED_FRAGMENT, Consts.NO_SAVED_FRAGMENT)
+                    .equals(TAG_SECOND_FRAGMENT)) {
+                getChildFragmentManager().beginTransaction()
+                        .add(R.id.fl_fragment_host_container, new SecondFragment(), TAG_SECOND_FRAGMENT)
+                        .commit();
+            } else {
+                getChildFragmentManager().beginTransaction()
+                        .add(R.id.fl_fragment_host_container, new FirstFragment(), TAG_FIRST_FRAGMENT)
+                        .commit();
+            }
+        }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
+    public void onDetach() {
+        if (getChildFragmentManager().getFragments().get(0) instanceof FirstFragment) {
+            requireActivity()
+                    .getPreferences(Context.MODE_PRIVATE)
+                    .edit()
+                    .putString(Consts.TAG_SAVED_FRAGMENT, TAG_FIRST_FRAGMENT)
+                    .commit();
+        } else if (getChildFragmentManager().getFragments().get(0) instanceof SecondFragment) {
+            requireActivity()
+                    .getPreferences(Context.MODE_PRIVATE)
+                    .edit()
+                    .putString(Consts.TAG_SAVED_FRAGMENT, TAG_SECOND_FRAGMENT)
                     .commit();
         }
+        super.onDetach();
     }
 
     public void replaceWithFragment(String tag) {
